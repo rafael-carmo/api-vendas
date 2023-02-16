@@ -25,6 +25,12 @@ class UsersRepository {
     return user;
   }
 
+  public async save(user: User): Promise<User> {
+    await this.ormRepository.save(user);
+
+    return user;
+  }
+
   public async findAll({
     page,
     skip,
