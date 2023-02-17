@@ -2,9 +2,9 @@ import multer from 'multer';
 import path from 'path';
 import crypto from 'crypto';
 
-const uploadFolder = path.resolve(__dirname, '..', '..', 'updloads');
+const uploadFolder = path.resolve(__dirname, '..', '..', 'uploads');
 
-export default {
+const uploadConfig = {
   directory: uploadFolder,
   storage: multer.diskStorage({
     destination: uploadFolder,
@@ -16,3 +16,5 @@ export default {
     },
   }),
 };
+
+export default uploadConfig;
