@@ -60,7 +60,7 @@ class UsersRepository {
     return user;
   }
 
-  public async findByid(id: string): Promise<User | null> {
+  public async findById(id: string): Promise<User | null> {
     const user = await this.ormRepository.findOneBy({
       id,
     });
