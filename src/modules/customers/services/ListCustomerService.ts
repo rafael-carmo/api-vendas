@@ -1,5 +1,5 @@
-import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 import { ICustomerPaginate } from '../domain/models/ICustomerPaginate';
+import CustomersRepository from '../infra/typeorm/repositories/CustomerRepository';
 
 interface SearchParams {
   page: number;
@@ -7,7 +7,7 @@ interface SearchParams {
 }
 
 class ListCustomerService {
-  private customersRepository: ICustomersRepository;
+  private customersRepository = new CustomersRepository();
 
   public async execute({
     page,

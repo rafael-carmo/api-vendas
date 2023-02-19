@@ -1,10 +1,10 @@
 import { IUpdateCustomer } from '../domain/models/IUpdateCustomer';
 import Customer from '../infra/typeorm/entities/Customer';
-import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 import AppError from '@shared/http/errors/AppError';
+import CustomersRepository from '../infra/typeorm/repositories/CustomerRepository';
 
 class UpdateCustomerService {
-  private customersRepository: ICustomersRepository;
+  private customersRepository = new CustomersRepository();
 
   public async execute({
     id,

@@ -1,10 +1,10 @@
 import Customer from '../infra/typeorm/entities/Customer';
-import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 import AppError from '@shared/http/errors/AppError';
 import { IShowCustomer } from '../domain/models/IShowCustomer';
+import CustomersRepository from '../infra/typeorm/repositories/CustomerRepository';
 
 class ShowCustomerService {
-  private customersRepository: ICustomersRepository;
+  private customersRepository = new CustomersRepository();
 
   public async execute({ id }: IShowCustomer): Promise<Customer> {
     const customer = await this.customersRepository.findById(id);
