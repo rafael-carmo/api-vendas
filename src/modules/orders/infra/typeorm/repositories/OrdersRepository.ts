@@ -1,18 +1,7 @@
-import Customer from '@modules/customers/infra/typeorm/entities/Customer';
+import { ICreateOrder } from '@modules/orders/domain/models/ICreateOrder';
 import { dataSource } from '@shared/infra/typeorm';
 import { Repository } from 'typeorm';
 import Order from '../entities/Order';
-
-interface IProduct {
-  product_id: string;
-  price: number;
-  quantity: number;
-}
-
-interface IRequest {
-  customer: Customer;
-  products: IProduct[];
-}
 
 class OrdersRepository {
   private ormRepository: Repository<Order>;
@@ -30,7 +19,7 @@ class OrdersRepository {
     return order;
   }
 
-  public async create({ customer, products }: IRequest): Promise<Order> {
+  public async create({ customer, products }: ICreateOrder): Promise<Order> {
     const order = this.ormRepository.create({
       customer,
       order_products: products,

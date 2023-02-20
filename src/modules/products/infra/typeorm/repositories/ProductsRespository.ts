@@ -1,8 +1,9 @@
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import Product from '../entities/Product';
 import { dataSource } from '@shared/infra/typeorm/index';
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductPaginate } from '@modules/products/domain/models/IProductPaginate';
+import { IFindProducts } from '@modules/products/domain/models/IFindProducts';
 
 type SearchParams = {
   page: number;
@@ -66,6 +67,18 @@ class ProductRepository {
     };
 
     return result;
+  }
+
+  public async findAllByIds(products: IFindProducts[]): Promise<Product[]> {
+    const productIds = products.map(product => product.id);
+
+    const existentProducts = await this.ormRepository.find({
+      where: {
+        id: In(productIds),
+      },
+    });
+
+    return existentProducts;
   }
 
   public async findById(id: string): Promise<Product | null> {
