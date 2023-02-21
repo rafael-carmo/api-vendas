@@ -1,25 +1,19 @@
 import CustomersRepository from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
 import ProductRepository from '@modules/products/infra/typeorm/repositories/ProductsRespository';
 import AppError from '@shared/http/errors/AppError';
+import { IRequestCreateOrder } from '../domain/models/IRequestCreateOrder';
 import Order from '../infra/typeorm/entities/Order';
 import OrdersRepository from '../infra/typeorm/repositories/OrdersRepository';
-
-interface IProduct {
-  id: string;
-  quantity: number;
-}
-
-interface IRequest {
-  customer_id: string;
-  products: IProduct[];
-}
 
 class CreateOrderService {
   private ordersRepository = new OrdersRepository();
   private customersRepository = new CustomersRepository();
   private productsRepository = new ProductRepository();
 
-  public async execute({ customer_id, products }: IRequest): Promise<Order> {
+  public async execute({
+    customer_id,
+    products,
+  }: IRequestCreateOrder): Promise<Order> {
     const customerExists = await this.customersRepository.findById(customer_id);
 
     if (!customerExists) {
@@ -50,10 +44,10 @@ class CreateOrderService {
         product.quantity,
     );
 
-    if (quantityAvailable.length) {
+    //validação feita no curso (quantityAvailable.length) não estava fucnionado
+    if (quantityAvailable.length > 0) {
       throw new AppError(
-        `The quantity ${quantityAvailable[0].quantity}
-         is not available for ${quantityAvailable[0].id}.`,
+        `The quantity ${quantityAvailable[0].quantity} is not available for ${quantityAvailable[0].id}.`,
       );
     }
 
@@ -77,16 +71,7 @@ class CreateOrderService {
         product.quantity,
     }));
 
-    // const updatedProductQuantity = {
-    //   id: '1',
-    //   name: 'string',
-    //   price: 10,
-    //   quantity: 10,
-    // };
-
-    console.log(updatedProductQuantity);
-
-    await this.productsRepository.save(updatedProductQuantity);
+    await this.productsRepository.updateStock(updatedProductQuantity);
 
     return order;
   }

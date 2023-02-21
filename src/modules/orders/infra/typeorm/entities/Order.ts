@@ -1,4 +1,3 @@
-import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+// import Customer from '@modules/customers/infra/typeorm/entities/Customer';
+import Customer from '../../../../customers/infra/typeorm/entities/Customer';
 import OrdersProducts from './OrdersProducts';
 
 @Entity('orders')
@@ -16,10 +17,10 @@ class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('int')
-  order: number;
+  // @Column('int')
+  // order: number;
 
-  @ManyToOne(() => Customer)
+  @ManyToOne(() => Customer, { eager: false })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
@@ -31,7 +32,7 @@ class Order {
   @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }
 

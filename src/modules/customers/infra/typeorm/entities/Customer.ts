@@ -5,10 +5,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ICustomer } from '@modules/customers/domain/models/ICustomer';
 
 @Entity('customers')
-class Customer implements ICustomer {
+class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -21,7 +20,7 @@ class Customer implements ICustomer {
   @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }
 

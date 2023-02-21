@@ -4,6 +4,7 @@ import { dataSource } from '@shared/infra/typeorm/index';
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductPaginate } from '@modules/products/domain/models/IProductPaginate';
 import { IFindProducts } from '@modules/products/domain/models/IFindProducts';
+import { IUpdateStockProduct } from '@modules/products/domain/models/IUpdateStockProduct';
 
 type SearchParams = {
   page: number;
@@ -38,6 +39,10 @@ class ProductRepository {
 
   public async remove(product: Product): Promise<void> {
     await this.ormRepository.remove(product);
+  }
+
+  public async updateStock(products: IUpdateStockProduct[]): Promise<void> {
+    await this.ormRepository.save(products);
   }
 
   public async findByName(name: string): Promise<Product | null> {
