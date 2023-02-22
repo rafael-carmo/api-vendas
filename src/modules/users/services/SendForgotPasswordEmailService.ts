@@ -37,7 +37,7 @@ class SendForgotPasswordEmailService {
           name: user.name,
           //está simulando que existe uma rota no front end com um formulário para troca da senha,
           //por isso link apontar para este endereço
-          link: `http://localhost:3333/reset_password?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`,
         },
       },
     });
