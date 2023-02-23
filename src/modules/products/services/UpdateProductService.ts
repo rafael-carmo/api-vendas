@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/http/errors/AppError';
 import { IProduct } from '../domain/models/IProduct';
 import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
@@ -29,6 +30,10 @@ class UpdateProductService {
     if (productExists && name !== product.name) {
       throw new AppError('There is already one product with this name');
     }
+
+    const redisCache = new RedisCache();
+
+    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
 
     product.name = name;
     product.price = price;

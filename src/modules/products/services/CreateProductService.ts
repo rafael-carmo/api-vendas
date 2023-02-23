@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/http/errors/AppError';
 import Product from '../infra/typeorm/entities/Product';
 import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
@@ -17,6 +18,10 @@ class CreateProductService {
     if (productExists) {
       throw new AppError('There is already one product with this name');
     }
+
+    const redisCache = new RedisCache();
+
+    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
 
     const product = await this.productRepository.create({
       name,
