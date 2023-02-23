@@ -1,5 +1,6 @@
 import { IProductPaginate } from '../domain/models/IProductPaginate';
 import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
+import RedisCache from '@shared/cache/RedisCache';
 
 interface SearchParams {
   page: number;
@@ -15,11 +16,21 @@ class ListProductService {
   }: SearchParams): Promise<IProductPaginate> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
-    const products = await this.productRepository.findAll({
-      page,
-      skip,
-      take,
-    });
+
+    const redisCache = new RedisCache();
+
+    let products = await redisCache.recover<IProductPaginate>(
+      'api-vendas-PRODUCT_LIST',
+    );
+
+    if (!products) {
+      products = await this.productRepository.findAll({
+        page,
+        skip,
+        take,
+      });
+      await redisCache.save('api-vendas-PRODUCT_LIST', products);
+    }
 
     return products;
   }
