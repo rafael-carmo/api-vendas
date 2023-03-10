@@ -1,7 +1,8 @@
+import { inject, injectable } from 'tsyringe';
 import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/http/errors/AppError';
-import Product from '../infra/typeorm/entities/Product';
-import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
+import { IProductsRepository } from '../domain/repositories/IProductsRepository';
+import { IProduct } from '../domain/models/IProduct';
 
 interface IRequest {
   name: string;
@@ -9,10 +10,14 @@ interface IRequest {
   quantity: number;
 }
 
+@injectable()
 class CreateProductService {
-  private productRepository = new ProductRepository();
+  constructor(
+    @inject('ProductRepository')
+    private productRepository: IProductsRepository,
+  ) {}
 
-  public async execute({ name, price, quantity }: IRequest): Promise<Product> {
+  public async execute({ name, price, quantity }: IRequest): Promise<IProduct> {
     const productExists = await this.productRepository.findByName(name);
 
     if (productExists) {

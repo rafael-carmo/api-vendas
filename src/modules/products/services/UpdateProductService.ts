@@ -1,7 +1,9 @@
+import { inject, injectable } from 'tsyringe';
 import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/http/errors/AppError';
 import { IProduct } from '../domain/models/IProduct';
 import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
+import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 
 interface IRequest {
   id: string;
@@ -10,8 +12,12 @@ interface IRequest {
   quantity: number;
 }
 
+@injectable()
 class UpdateProductService {
-  private productRepository = new ProductRepository();
+  constructor(
+    @inject('ProductRepository')
+    private productRepository: IProductsRepository,
+  ) {}
 
   public async execute({
     id,

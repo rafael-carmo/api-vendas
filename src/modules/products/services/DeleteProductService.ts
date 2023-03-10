@@ -1,15 +1,17 @@
+import { inject, injectable } from 'tsyringe';
 import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/http/errors/AppError';
-import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
+import { IProductsRepository } from '../domain/repositories/IProductsRepository';
+import { IDeleteProduct } from '../domain/models/IDeleteProducts';
 
-interface IRequest {
-  id: string;
-}
-
+@injectable()
 class DeleteProductService {
-  private productRepository = new ProductRepository();
+  constructor(
+    @inject('ProductRepository')
+    private productRepository: IProductsRepository,
+  ) {}
 
-  public async execute({ id }: IRequest): Promise<void> {
+  public async execute({ id }: IDeleteProduct): Promise<void> {
     const product = await this.productRepository.findById(id);
 
     if (!product) {

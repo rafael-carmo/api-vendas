@@ -6,6 +6,7 @@ import cors from 'cors';
 import { errors } from 'celebrate';
 import routes from '@shared/http/routes';
 import AppError from '@shared/http/errors/AppError';
+import '@shared/container';
 import uploadConfig from '@config/upload';
 import rateLimiter from './middlewares/rateLimiter';
 

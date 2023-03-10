@@ -1,10 +1,15 @@
+import { inject, injectable } from 'tsyringe';
 import { IUpdateCustomer } from '../domain/models/IUpdateCustomer';
 import Customer from '../infra/typeorm/entities/Customer';
 import AppError from '@shared/http/errors/AppError';
-import CustomersRepository from '../infra/typeorm/repositories/CustomerRepository';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 
+@injectable()
 class UpdateCustomerService {
-  private customersRepository = new CustomersRepository();
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
   public async execute({
     id,

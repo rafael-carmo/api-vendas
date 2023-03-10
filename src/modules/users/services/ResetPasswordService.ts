@@ -1,13 +1,20 @@
+import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/http/errors/AppError';
 import { IResetPassword } from '../domain/models/IResetPassword';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import UserTokensRepository from '../infra/typeorm/repositories/UserTokensRepository';
 import { addHours, isAfter } from 'date-fns';
 import { hash } from 'bcryptjs';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
+import { IUserTokensRespository } from '../domain/repositories/IUserTokensRepository';
 
+@injectable()
 class ResetPasswordService {
-  private usersRepository = new UsersRepository();
-  private userTokensRepository = new UserTokensRepository();
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+
+    @inject('UserTokensRepository')
+    private userTokensRepository: IUserTokensRespository,
+  ) {}
 
   public async execute({ token, password }: IResetPassword): Promise<void> {
     const userToken = await this.userTokensRepository.findByToken(token);

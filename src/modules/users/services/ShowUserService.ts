@@ -1,17 +1,17 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/http/errors/AppError';
+import User from '../infra/typeorm/entities/User';
 import { IShowUser } from '../domain/models/IShowUser';
-import { IUser } from '../domain/models/IUser';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 @injectable()
-class ShowProfileService {
+class ShowUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ id }: IShowUser): Promise<IUser> {
+  public async execute({ id }: IShowUser): Promise<User> {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
@@ -22,4 +22,4 @@ class ShowProfileService {
   }
 }
 
-export default ShowProfileService;
+export default ShowUserService;

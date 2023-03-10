@@ -1,10 +1,15 @@
+import { inject, injectable } from 'tsyringe';
 import Customer from '../infra/typeorm/entities/Customer';
 import AppError from '@shared/http/errors/AppError';
 import { IShowCustomer } from '../domain/models/IShowCustomer';
-import CustomersRepository from '../infra/typeorm/repositories/CustomerRepository';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 
+@injectable()
 class ShowCustomerService {
-  private customersRepository = new CustomersRepository();
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
   public async execute({ id }: IShowCustomer): Promise<Customer> {
     const customer = await this.customersRepository.findById(id);

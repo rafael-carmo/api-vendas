@@ -5,6 +5,7 @@ import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductPaginate } from '@modules/products/domain/models/IProductPaginate';
 import { IFindProducts } from '@modules/products/domain/models/IFindProducts';
 import { IUpdateStockProduct } from '@modules/products/domain/models/IUpdateStockProduct';
+import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
 
 type SearchParams = {
   page: number;
@@ -12,7 +13,7 @@ type SearchParams = {
   take: number;
 };
 
-class ProductRepository {
+class ProductRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;
 
   constructor() {

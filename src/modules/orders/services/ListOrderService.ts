@@ -1,13 +1,18 @@
+import { inject, injectable } from 'tsyringe';
 import { IOrderPaginate } from '../domain/models/IOrderPaginate';
-import OrdersRepository from '../infra/typeorm/repositories/OrdersRepository';
+import { IOrdersRepository } from '../domain/repositories/IOrdersRepository';
 
 interface SearchParams {
   page: number;
   limit: number;
 }
 
+@injectable()
 class ListOrderService {
-  private ordersRepository = new OrdersRepository();
+  constructor(
+    @inject('OrdersRepository')
+    private ordersRepository: IOrdersRepository,
+  ) {}
 
   public async execute({ page, limit }: SearchParams): Promise<IOrderPaginate> {
     const take = limit;

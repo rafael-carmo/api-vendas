@@ -1,19 +1,28 @@
-import CustomersRepository from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
-import ProductRepository from '@modules/products/infra/typeorm/repositories/ProductsRespository';
+import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/http/errors/AppError';
 import { IRequestCreateOrder } from '../domain/models/IRequestCreateOrder';
-import Order from '../infra/typeorm/entities/Order';
-import OrdersRepository from '../infra/typeorm/repositories/OrdersRepository';
+import { IOrdersRepository } from '../domain/repositories/IOrdersRepository';
+import { ICustomersRepository } from '@modules/customers/domain/repositories/ICustomersRepository';
+import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
+import { IOrder } from '../domain/models/IOrder';
 
+@injectable()
 class CreateOrderService {
-  private ordersRepository = new OrdersRepository();
-  private customersRepository = new CustomersRepository();
-  private productsRepository = new ProductRepository();
+  constructor(
+    @inject('OrdersRepository')
+    private ordersRepository: IOrdersRepository,
+
+    @inject('ICustomersRepository')
+    private customersRepository: ICustomersRepository,
+
+    @inject('IProductRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
 
   public async execute({
     customer_id,
     products,
-  }: IRequestCreateOrder): Promise<Order> {
+  }: IRequestCreateOrder): Promise<IOrder> {
     const customerExists = await this.customersRepository.findById(customer_id);
 
     if (!customerExists) {

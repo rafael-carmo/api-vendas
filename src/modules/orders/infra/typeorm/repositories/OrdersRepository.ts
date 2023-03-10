@@ -1,5 +1,6 @@
 import { ICreateOrder } from '@modules/orders/domain/models/ICreateOrder';
 import { IOrderPaginate } from '@modules/orders/domain/models/IOrderPaginate';
+import { IOrdersRepository } from '@modules/orders/domain/repositories/IOrdersRepository';
 import { dataSource } from '@shared/infra/typeorm';
 import { Repository } from 'typeorm';
 import Order from '../entities/Order';
@@ -10,7 +11,7 @@ interface SearchParams {
   take: number;
 }
 
-class OrdersRepository {
+class OrdersRepository implements IOrdersRepository {
   private ormRepository: Repository<Order>;
 
   constructor() {

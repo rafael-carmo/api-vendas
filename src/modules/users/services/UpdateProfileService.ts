@@ -1,11 +1,17 @@
+import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/http/errors/AppError';
 import { compare, hash } from 'bcryptjs';
 import { IUpdateProfile } from '../domain/models/IUpdateProfile';
 import { IUser } from '../domain/models/IUser';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
+@injectable()
 class UpdateProfileService {
-  private usersRepository = new UsersRepository();
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
+
   public async execute({
     user_id,
     name,

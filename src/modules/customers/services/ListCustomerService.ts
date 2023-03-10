@@ -1,13 +1,18 @@
+import { inject, injectable } from 'tsyringe';
 import { ICustomerPaginate } from '../domain/models/ICustomerPaginate';
-import CustomersRepository from '../infra/typeorm/repositories/CustomerRepository';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 
 interface SearchParams {
   page: number;
   limit: number;
 }
 
+@injectable()
 class ListCustomerService {
-  private customersRepository = new CustomersRepository();
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
   public async execute({
     page,

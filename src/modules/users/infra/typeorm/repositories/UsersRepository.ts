@@ -1,5 +1,6 @@
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IPaginateUser } from '@modules/users/domain/models/IPaginateUser';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { dataSource } from '@shared/infra/typeorm';
 import { Repository } from 'typeorm';
 import User from '../entities/User';
@@ -10,7 +11,7 @@ type SearchParams = {
   take: number;
 };
 
-class UsersRepository {
+class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
 
   constructor() {

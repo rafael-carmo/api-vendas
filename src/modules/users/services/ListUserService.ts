@@ -1,13 +1,18 @@
+import { inject, injectable } from 'tsyringe';
 import { IPaginateUser } from '../domain/models/IPaginateUser';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 interface SearchParams {
   page: number;
   limit: number;
 }
 
+@injectable()
 class ListUserService {
-  private usersRepository = new UsersRepository();
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   public async execute({ page, limit }: SearchParams): Promise<IPaginateUser> {
     const take = limit;
