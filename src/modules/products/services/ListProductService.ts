@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import { IProductPaginate } from '../domain/models/IProductPaginate';
-import ProductRepository from '../infra/typeorm/repositories/ProductsRespository';
 import RedisCache from '@shared/cache/RedisCache';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 
@@ -12,7 +11,7 @@ interface SearchParams {
 @injectable()
 class ListProductService {
   constructor(
-    @inject('ProductRepository')
+    @inject('ProductsRepository')
     private productRepository: IProductsRepository,
   ) {}
 

@@ -18,7 +18,6 @@ class CreateSessionsService {
     email,
     password,
   }: ICreateSession): Promise<IUserAuthenticated> {
-    // const usersRepository = new UsersRepository();
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
