@@ -9,10 +9,10 @@ export type SearchParams = {
 };
 
 export interface ICustomersRepository {
-  findAll({ page, skip, take }: SearchParams): Promise<ICustomerPaginate>;
-  findByName(name: string): Promise<ICustomer | null>;
-  findById(id: string): Promise<ICustomer | null>;
-  findByEmail(email: string): Promise<ICustomer | null>;
+  findAll({ page, skip, take }: SearchParams): Promise<ICustomerPaginate | undefined>;
+  findByName(name: string): Promise<ICustomer | null | undefined>;
+  findById(id: string): Promise<ICustomer | null | undefined>;
+  findByEmail(email: string): Promise<ICustomer | null | undefined>;
   create(data: ICreateCustomer): Promise<ICustomer>;
   save(customer: ICustomer): Promise<ICustomer>;
   remove(customer: ICustomer): Promise<void>;
