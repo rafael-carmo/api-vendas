@@ -4,7 +4,6 @@ import { hash } from 'bcryptjs';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ICreateUser } from '../domain/models/ICreateUser';
 import { IUser } from '../domain/models/IUser';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
 
 @injectable()
 class CreateUserService {
@@ -22,12 +21,12 @@ class CreateUserService {
 
     const hashedPassword = await hash(password, 8);
 
-      const user = this.usersRepository.create({
-        name,
-        email,
-        password: hashedPassword,
-      });
-      return user;
+    const user = this.usersRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+    return user;
   }
 }
 
