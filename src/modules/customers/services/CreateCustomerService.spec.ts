@@ -6,7 +6,7 @@ import CreateCustomerService from './CreateCustomerService';
 let fakeCustomersRepository: FakeCustomersRepository;
 let createCustomer: CreateCustomerService;
 
-describe('CraeteCustomer', () => {
+describe('CreateCustomer', () => {
   beforeEach(() => {
     fakeCustomersRepository = new FakeCustomersRepository();
     createCustomer = new CreateCustomerService(fakeCustomersRepository);

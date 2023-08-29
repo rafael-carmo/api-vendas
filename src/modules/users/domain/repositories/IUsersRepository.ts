@@ -9,10 +9,10 @@ type SearchParams = {
 };
 
 export interface IUsersRepository {
-  findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser>;
-  findByName(name: string): Promise<IUser | null>;
-  findById(id: string): Promise<IUser | null>;
-  findByEmail(email: string): Promise<IUser | null>;
+  findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser | IUser[]>;
+  findByName(name: string): Promise<IUser | null | undefined>;
+  findById(id: string): Promise<IUser | null | undefined>;
+  findByEmail(email: string): Promise<IUser | null | undefined>;
   create(data: ICreateUser): Promise<IUser>;
   save(user: IUser): Promise<IUser>;
 }

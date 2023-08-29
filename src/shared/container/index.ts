@@ -9,7 +9,6 @@ import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepos
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { IUserTokensRespository } from '@modules/users/domain/repositories/IUserTokensRepository';
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
-import { IHashProvider } from '@modules/users/providers/HashProvider/models/IHashProvider';
 
 import '@modules/users/providers';
 
