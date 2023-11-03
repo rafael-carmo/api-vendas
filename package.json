@@ -10,7 +10,7 @@
     "lint-fix": "eslint . --ext .ts --fix",
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "keywords": [],
   "author": "",

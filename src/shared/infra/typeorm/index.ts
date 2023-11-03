@@ -2,8 +2,8 @@ import { DataSource } from 'typeorm';
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'db', //'localhost',
-  port: 5432,
+  host: 'localhost',
+  port: 5433,
   username: 'postgres',
   password: 'docker',
   database: 'apivendas',
